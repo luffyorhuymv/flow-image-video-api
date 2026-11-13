@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { width: 420px; font-family: system-ui, sans-serif; background: #0f1117; color: #e6e6e6; margin: 0; padding: 12px; }
+    h2 { font-size: 15px; margin: 0 0 4px; }
+    p { font-size: 12px; color: #9aa0b4; margin: 4px 0 10px; }
+    #count { font-size: 26px; font-weight: 700; color: #4f6ef7; }
+    #status { font-size: 12px; padding: 6px 8px; border-radius: 6px; margin: 6px 0; }
+    #status.ok { background: #12291a; color: #7ee787; }
+    #status.warn { background: #2b2413; color: #f0c674; }
+    #info { font-size: 11px; color: #b9bed0; white-space: pre-wrap; background: #1a1d27; border-radius: 6px; padding: 6px 8px; margin: 6px 0; }
+    button { padding: 8px 10px; border: 0; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; margin: 4px 0; font-size: 13px; }
+    #mint { background: #2ea043; color: #fff; }
+    #save { background: #4f6ef7; color: #fff; }
+    #clear { background: #2a2e3d; color: #cfd3e0; }
+    ul { list-style: none; padding: 0; margin: 8px 0 0; max-height: 180px; overflow-y: auto; }
+    li { font-size: 11px; padding: 4px 6px; background: #1a1d27; border-radius: 6px; margin-bottom: 4px;
+         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #b9bed0; }
+    li b { color: #7ee787; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h2>Flow Request Capture</h2>
+  <p>Giữ tab Flow mở — extension tự đúc token reCAPTCHA, bắt token at (XSRF) và đẩy cookie tươi về proxy (127.0.0.1:8811).</p>
+  <div id="count">0</div>
+  <div id="status" class="warn">Đang kiểm tra…</div>
+  <div id="info"></div>
+  <button id="mint">🔐 Đúc token ngay</button>
+  <button id="save">⬇️ Tải capture-flow.json</button>
+  <button id="clear">🗑️ Xoá đã ghi</button>
+  <ul id="list"></ul>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "flow",
+  "version": "1.0.0",
+  "description": "Proxy API cục bộ để **tạo ảnh từ Google Flow** (project `https://flow.google.com/project/87c609bb-6931-4a76-8d8b-99a28f854873`) qua giao diện kiểu OpenAI (`/v1/images/generations`). Không cần cài thư viện nào — chỉ cần **Node.js ≥ 18**.",
+  "main": "flow_agent.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.22.3",
+    "playwright": "^1.65.0"
+  }
+}

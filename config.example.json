@@ -1,0 +1,13 @@
+{
+  "port": 8787,
+  "apiKey": "",
+  "projectId": "87c609bb-6931-4a76-8d8b-99a28f854873",
+  "backend": "flow",
+  "model": "nano-banana",
+  "aspectRatio": "16:9",
+  "cookies": "",
+  "cookiesFile": "cookies.txt",
+  "recaptchaToken": "",
+  "outputDir": "output",
+  "timeoutMs": 300000
+}

@@ -1,0 +1,277 @@
+{
+  "schema_version": "mimosa-task-review/v2",
+  "run_id": "20260927T231640784Z-30900-22ade0fb2e31",
+  "run_status": "inconclusive",
+  "errors": [
+    {
+      "stage": "scan",
+      "target": "extension-capture/background.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "extension-capture/popup.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "server.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    }
+  ],
+  "coverage": {
+    "schema_version": "mimosa-hook-coverage/v1",
+    "status": "partial",
+    "scope": "hook_observed_diff",
+    "baseline": {
+      "complete": true,
+      "captured_files": 5,
+      "candidate_limit": 5000,
+      "truncated": false,
+      "enumeration_error_count": 0,
+      "snapshot_error_count": 0,
+      "compensated_target_count": 3
+    },
+    "change_tracking": {
+      "touched_observed": 3,
+      "touched_retained": 3,
+      "truncated": false,
+      "bash_mutation": true,
+      "bash_discovered": 3,
+      "bash_discovery_limit": 80,
+      "bash_discovery_truncated": false
+    },
+    "candidates": {
+      "eligible_files": 3,
+      "selected_files": 3,
+      "limit": 20,
+      "truncated": false
+    },
+    "scanning": {
+      "required_files": 3,
+      "scanned_files": 0,
+      "skipped_files": 0,
+      "failed_files": 3,
+      "project_checks_required": 0,
+      "project_checks_completed": 0
+    },
+    "notification": {
+      "eligible_findings": 0,
+      "detailed_findings": 0,
+      "detail_limit": 3,
+      "truncated": false
+    },
+    "reason_counts": {
+      "scanner_failed": 3,
+      "project_check_failed": 3
+    },
+    "reasons": [
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "extension-capture/background.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "extension-capture/popup.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "server.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "extension-capture/background.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "extension-capture/popup.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "server.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      }
+    ],
+    "reasons_truncated": false
+  },
+  "generated_at": "2026-09-27T23:16:40.784Z",
+  "session_id": "sess_13c93b18-bc55-4693-89bc-5b78faec1e67",
+  "target": ".",
+  "revision": null,
+  "rules_version": "unavailable",
+  "diff_hash": "8674ebe19c2ed373e47941a3910d767dcb0ab9892d97f7bb2b834a7b934ca009",
+  "diff": {
+    "algorithm": "sha256",
+    "changed_file_count": 3,
+    "changed_files": [
+      {
+        "file": "extension-capture/background.js",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 1
+          },
+          {
+            "start": 7,
+            "end": 7
+          },
+          {
+            "start": 29,
+            "end": 81
+          },
+          {
+            "start": 88,
+            "end": 96
+          },
+          {
+            "start": 101,
+            "end": 110
+          },
+          {
+            "start": 112,
+            "end": 114
+          },
+          {
+            "start": 123,
+            "end": 123
+          },
+          {
+            "start": 160,
+            "end": 166
+          },
+          {
+            "start": 185,
+            "end": 185
+          },
+          {
+            "start": 193,
+            "end": 195
+          }
+        ],
+        "before_hash": "ff228c4a5ea5a9ffbf71dba0cfbd1f2943b355c5e9722a16a042763ac69cff77",
+        "after_hash": "cd6a4089871a3ee552f9ea469415a567c90e465f647d904587f1220801d0f0ca"
+      },
+      {
+        "file": "extension-capture/popup.js",
+        "ranges": [
+          {
+            "start": 4,
+            "end": 4
+          },
+          {
+            "start": 8,
+            "end": 8
+          },
+          {
+            "start": 15,
+            "end": 15
+          },
+          {
+            "start": 19,
+            "end": 26
+          },
+          {
+            "start": 31,
+            "end": 31
+          },
+          {
+            "start": 50,
+            "end": 54
+          }
+        ],
+        "before_hash": "1c2bc919eb697709e6d39e2a625314ad300d5c628df8e304b6ac7bd0e56a583b",
+        "after_hash": "90ddc12204522b47e7975d925f21c40caec019e6f2dc96f5a4391fdeefd6ad30"
+      },
+      {
+        "file": "server.js",
+        "ranges": [
+          {
+            "start": 115,
+            "end": 115
+          },
+          {
+            "start": 373,
+            "end": 373
+          },
+          {
+            "start": 377,
+            "end": 378
+          },
+          {
+            "start": 612,
+            "end": 613
+          }
+        ],
+        "before_hash": "a8a47b138bb3294e5e9846efda034208f4205ba6c66b069a285652a4b79be3f1",
+        "after_hash": "7a45c00bd1d11457047b34cd186ea490aa20253c2727d4f805c3c329f0fcde42"
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-09-27T23:16:27.973Z",
+    "completed_at": "2026-09-27T23:16:40.784Z",
+    "duration_ms": 12811,
+    "measurement": "hook_wall_clock"
+  },
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0,
+    "model_calls": 0,
+    "measurement": "known-zero"
+  },
+  "telemetry": {
+    "schemaVersion": "mimosa-gate-telemetry/v1",
+    "profile": "gate",
+    "operation": "Stop",
+    "outcome": "partial/INCONCLUSIVE",
+    "latencyMs": 12811,
+    "peakMemoryBytes": 83001344,
+    "memoryMeasurement": "max-observed-process-rss",
+    "scannedFiles": 0,
+    "cache": {
+      "hits": 0,
+      "misses": 0,
+      "measurement": "not-applicable"
+    },
+    "denyCount": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "total": 0,
+      "modelCalls": 0,
+      "measurement": "known-zero"
+    }
+  },
+  "finding_count": 0,
+  "rewake_finding_count": 0,
+  "evidence_boundary": {
+    "scan": "candidate",
+    "static_fix_verification": "observed_static_only",
+    "runtime_verification": "not_performed"
+  },
+  "finding_events": [],
+  "findings": [],
+  "artifacts": {
+    "immutable_report": ".mimosa/reports/task-review-sess_13c93b18-bc55-4693-89bc-5b78faec1e67-20260927T231640784Z-30900-22ade0fb2e31.json",
+    "latest_report": ".mimosa/reports/task-review-sess_13c93b18-bc55-4693-89bc-5b78faec1e67.json",
+    "history_summary": ".mimosa/history/run-20260927T231640784Z-30900-22ade0fb2e31.json"
+  }
+}

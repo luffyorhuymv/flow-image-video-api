@@ -1,0 +1,3 @@
+# Copy toàn bộ giá trị header "cookie" từ một request tới flow.google.com trong DevTools (F12 -> Network)
+# rồi dán vào đây (một dòng), đổi tên file này thành cookies.txt. Ví dụ dạng:
+__Secure-next-auth.session-token=xxx; __Secure-1PSID=xxx; __Secure-1PSIDTS=xxx; SID=xxx; SAPISID=xxx

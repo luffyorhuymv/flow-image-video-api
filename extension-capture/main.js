@@ -1,0 +1,229 @@
+// Chạy trong trang (world: MAIN) — vá fetch/XHR để bắt request/response của app Flow,
+// đồng thời hook grecaptcha.enterprise.execute để đúc thêm token reCAPTCHA dự phòng.
+'use strict';
+(() => {
+  if (window.__flowCaptureInstalled) return;
+  window.__flowCaptureInstalled = true;
+  try { document.documentElement.dataset.flowCapture = '1'; } catch { /* bỏ qua */ }
+
+  const MAX_BODY = 300 * 1024;
+  let seq = 0;
+  let lastAction = '';
+  let minting = false;
+
+  const trunc = (s) => (typeof s === 'string' && s.length > MAX_BODY ? s.slice(0, MAX_BODY) + '...[TRUNCATED]' : s);
+
+  function matches(url, method) {
+    const m = String(method || 'GET').toUpperCase();
+    if (m !== 'GET') return true;
+    return /token|oauth|auth|aisandbox|batchexecute/i.test(String(url || ''));
+  }
+
+  function headersToObject(h) {
+    const out = {};
+    if (!h) return out;
+    try {
+      if (typeof h.entries === 'function') { for (const [k, v] of h.entries()) out[k] = v; return out; }
+      if (Array.isArray(h)) { for (const [k, v] of h) out[k] = v; return out; }
+      if (typeof h === 'object') return { ...h };
+    } catch { /* bỏ qua */ }
+    return out;
+  }
+
+  function bodyToString(b) {
+    try {
+      if (b == null) return '';
+      if (typeof b === 'string') return b;
+      if (b instanceof URLSearchParams) return b.toString();
+      if (b instanceof FormData) {
+        const parts = [];
+        for (const [k, v] of b.entries()) parts.push(`${k}=${typeof v === 'string' ? v.slice(0, 2000) : '<file>'}`);
+        return parts.join('&');
+      }
+      if (b instanceof ArrayBuffer) return `<ArrayBuffer ${b.byteLength}B>`;
+      if (ArrayBuffer.isView(b)) return `<TypedArray ${b.byteLength}B>`;
+      if (b instanceof Blob) return `<Blob ${b.size}B ${b.type}>`;
+      return String(b);
+    } catch { return '<unserializable body>'; }
+  }
+
+  function emit(rec) {
+    try { rec.seq = ++seq; rec.ts = Date.now(); window.postMessage({ __flow_capture: rec }, '*'); } catch { /* bỏ qua */ }
+  }
+
+  function emitEvent(ev) {
+    try { window.postMessage({ __flow_capture_event: ev }, '*'); } catch { /* bỏ qua */ }
+  }
+
+  // Trích at (XSRF) + f.sid + bl từ các call batchexecute của app
+  function harvestAt(url, body) {
+    try {
+      const u = String(url || '');
+      if (!/batchexecute/.test(u)) return;
+      const m = String(body || '').match(/(?:^|[?&\s])at=([A-Za-z0-9_-]+(?::|%3A)\d{8,})/);
+      const fsid = u.match(/[?&]f\.sid=(-?\d+)/);
+      const bl = u.match(/[?&]bl=(boq_[A-Za-z0-9_.-]+)/);
+      if (m || (fsid && bl)) {
+        let at = m ? m[1] : '';
+        try { at = decodeURIComponent(at); } catch { /* giữ nguyên */ }
+        emitEvent({ kind: 'session', at, fsid: fsid ? fsid[1] : '', bl: bl ? bl[1] : '' });
+      }
+    } catch { /* bỏ qua */ }
+  }
+
+  /* ---------------------- reCAPTCHA: hook + đúc token ---------------------- */
+
+  function siteKey() {
+    try { return (window.WIZ_global_data && window.WIZ_global_data.xZbWve) || ''; } catch { return ''; }
+  }
+
+  function mintNow() {
+    if (minting) return;
+    const gr = window.grecaptcha && (window.grecaptcha.enterprise || window.grecaptcha);
+    const key = siteKey();
+    if (!gr || typeof gr.execute !== 'function' || !key) {
+      emitEvent({ kind: 'mint-failed', reason: !gr ? 'chưa thấy grecaptcha trong trang' : 'không đọc được site key (WIZ_global_data.xZbWve)' });
+      return;
+    }
+    minting = true;
+    const action = lastAction || 'IMAGE_GENERATION';
+    gr.execute(key, { action }).then((token) => {
+      if (token) emitEvent({ kind: 'token', token, action, source: 'auto' });
+    }).catch((e) => emitEvent({ kind: 'mint-failed', reason: 'execute lỗi: ' + (e && e.message || e) }))
+      .finally(() => { minting = false; });
+  }
+
+  // poll vô hạn (2 giây/lần) — grecaptcha có thể nạp muộn tuỳ lúc
+  setInterval(() => {
+    const gr = window.grecaptcha && (window.grecaptcha.enterprise || window.grecaptcha);
+    if (gr && typeof gr.execute === 'function' && !gr.execute.__flowHooked) {
+      const orig = gr.execute.bind(gr);
+      const wrapped = function (...args) {
+        try {
+          const opts = args[1] || {};
+          if (opts && opts.action && opts.action !== lastAction) {
+            lastAction = opts.action;
+            emitEvent({ kind: 'action', action: opts.action });
+          }
+          const p = orig(...args);
+          // đúc thêm 1 token dự phòng NGAY TRONG ngữ cảnh click thật của app (điểm rủi ro cao nhất)
+          Promise.resolve().then(() => orig(args[0], { ...opts }))
+            .then((tok) => { if (tok) emitEvent({ kind: 'token', token: tok, action: (opts && opts.action) || '', source: 'piggyback' }); })
+            .catch(() => {});
+          return p;
+        } catch { return orig(...args); }
+      };
+      wrapped.__flowHooked = true;
+      try { gr.execute = wrapped; } catch { /* trang đóng băng object — bỏ qua */ }
+      emitEvent({ kind: 'hooked' });
+    }
+  }, 2000);
+
+  setInterval(mintNow, 60_000); // tự đúc mỗi phút — token sống ~120s
+  setTimeout(mintNow, 5_000);
+
+  window.addEventListener('message', (e) => {
+    if (e.source !== window) return;
+    if (e.data && e.data.__flow_mint) mintNow();
+  });
+
+  /* ------------------ relay: trang Flow tự thực hiện request ------------------ */
+
+  const PROXY = 'http://127.0.0.1:8811';
+  setInterval(async () => {
+    try {
+      const r = await fetch(`${PROXY}/internal/relay/next`, { credentials: 'omit' });
+      const j = await r.json();
+      if (j && j.job) {
+        const res = await fetch(j.job.url, {
+          method: j.job.method || 'POST',
+          headers: j.job.headers || {},
+          body: j.job.body,
+          credentials: 'include', // cookie thật của trang flow.google.com
+        });
+        const text = await res.text();
+        await fetch(`${PROXY}/internal/relay/result`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: j.job.id, status: res.status, text }),
+        }).catch(() => {});
+      }
+    } catch { /* proxy tắt hoặc lỗi — bỏ qua, thử lần sau */ }
+  }, 1500);
+
+  /* ---------------------------- fetch / XHR hook ---------------------------- */
+
+  const origFetch = window.fetch;
+  if (origFetch) {
+    window.fetch = async function (input, init) {
+      let rec = null;
+      try {
+        const isReq = typeof Request !== 'undefined' && input instanceof Request;
+        const url = isReq ? input.url : String(input);
+        const method = ((init && init.method) || (isReq && input.method) || 'GET').toUpperCase();
+        if (matches(url, method)) {
+          const headers = headersToObject((init && init.headers) || (isReq && input.headers) || null);
+          let body = '';
+          if (init && init.body != null) body = bodyToString(init.body);
+          else if (isReq) {
+            try { body = bodyToString(await input.clone().text()); } catch { body = '<unreadable>'; }
+          }
+          harvestAt(url, body);
+          rec = { kind: 'fetch', method, url, reqHeaders: headers, reqBody: trunc(body), status: 0, resBody: '' };
+        }
+      } catch { /* không ghi */ }
+      const res = await origFetch.apply(this, arguments);
+      if (rec) {
+        try {
+          const clone = res.clone();
+          clone.text().then((t) => {
+            rec.status = res.status;
+            rec.resContentType = res.headers.get('content-type') || '';
+            rec.resBody = trunc(t);
+            emit(rec);
+          }).catch(() => emit({ ...rec, status: res.status, resBody: '<unreadable>' }));
+        } catch { emit({ ...rec, status: res.status, resBody: '<clone-failed>' }); }
+      }
+      return res;
+    };
+  }
+
+  const XHR = window.XMLHttpRequest;
+  if (XHR && XHR.prototype) {
+    const origOpen = XHR.prototype.open;
+    const origSend = XHR.prototype.send;
+    const origSetHeader = XHR.prototype.setRequestHeader;
+    const meta = new WeakMap();
+
+    XHR.prototype.open = function (method, url) {
+      try {
+        const m = String(method || 'GET').toUpperCase();
+        if (matches(url, m)) meta.set(this, { kind: 'xhr', method: m, url: String(url), reqHeaders: {}, reqBody: '', status: 0, resBody: '' });
+      } catch { /* bỏ qua */ }
+      return origOpen.apply(this, arguments);
+    };
+    XHR.prototype.setRequestHeader = function (k, v) {
+      try {
+        const r = meta.get(this);
+        if (r) r.reqHeaders[k] = v;
+      } catch { /* bỏ qua */ }
+      return origSetHeader.apply(this, arguments);
+    };
+    XHR.prototype.send = function (body) {
+      const r = meta.get(this);
+      if (r) {
+        r.reqBody = trunc(bodyToString(body));
+        harvestAt(r.url, r.reqBody);
+        this.addEventListener('load', () => {
+          try {
+            r.status = this.status;
+            r.resContentType = this.getResponseHeader('content-type') || '';
+            r.resBody = trunc(typeof this.responseText === 'string' ? this.responseText : '<non-text>');
+          } catch { r.resBody = '<unreadable>'; }
+          emit(r);
+        });
+      }
+      return origSend.apply(this, arguments);
+    };
+  }
+})();

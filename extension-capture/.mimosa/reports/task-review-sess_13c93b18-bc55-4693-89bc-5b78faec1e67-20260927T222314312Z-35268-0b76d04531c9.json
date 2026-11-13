@@ -1,0 +1,291 @@
+{
+  "schema_version": "mimosa-task-review/v2",
+  "run_id": "20260927T222314312Z-35268-0b76d04531c9",
+  "run_status": "inconclusive",
+  "errors": [
+    {
+      "stage": "scan",
+      "target": "main.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "relay.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "background.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    },
+    {
+      "stage": "scan",
+      "target": "popup.js",
+      "reason": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT"
+    }
+  ],
+  "coverage": {
+    "schema_version": "mimosa-hook-coverage/v1",
+    "status": "partial",
+    "scope": "hook_observed_diff",
+    "baseline": {
+      "complete": true,
+      "captured_files": 4,
+      "candidate_limit": 5000,
+      "truncated": false,
+      "enumeration_error_count": 0,
+      "snapshot_error_count": 0,
+      "compensated_target_count": 4
+    },
+    "change_tracking": {
+      "touched_observed": 4,
+      "touched_retained": 4,
+      "truncated": false,
+      "bash_mutation": false,
+      "bash_discovered": 0,
+      "bash_discovery_limit": 80,
+      "bash_discovery_truncated": false
+    },
+    "candidates": {
+      "eligible_files": 4,
+      "selected_files": 4,
+      "limit": 20,
+      "truncated": false
+    },
+    "scanning": {
+      "required_files": 4,
+      "scanned_files": 0,
+      "skipped_files": 0,
+      "failed_files": 4,
+      "project_checks_required": 0,
+      "project_checks_completed": 0
+    },
+    "notification": {
+      "eligible_findings": 0,
+      "detailed_findings": 0,
+      "detail_limit": 3,
+      "truncated": false
+    },
+    "reason_counts": {
+      "scanner_failed": 4,
+      "project_check_failed": 4
+    },
+    "reasons": [
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "main.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "relay.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "background.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "scanner_failed",
+        "stage": "scan",
+        "target": "popup.js",
+        "detail": "spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "main.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "relay.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "background.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      },
+      {
+        "code": "project_check_failed",
+        "stage": "scan",
+        "target": "popup.js",
+        "detail": "scanner_failed: spawnSync C:\\nvm4w\\nodejs\\node.exe ETIMEDOUT",
+        "affects_completion": true
+      }
+    ],
+    "reasons_truncated": false
+  },
+  "generated_at": "2026-09-27T22:23:14.312Z",
+  "session_id": "sess_13c93b18-bc55-4693-89bc-5b78faec1e67",
+  "target": ".",
+  "revision": null,
+  "rules_version": "unavailable",
+  "diff_hash": "23804403975a31a9cc4f89a2e7c467d384a624220a54864d8253f08cb78ca202",
+  "diff": {
+    "algorithm": "sha256",
+    "changed_file_count": 4,
+    "changed_files": [
+      {
+        "file": "background.js",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 1
+          },
+          {
+            "start": 4,
+            "end": 6
+          },
+          {
+            "start": 32,
+            "end": 36
+          },
+          {
+            "start": 39,
+            "end": 42
+          },
+          {
+            "start": 49,
+            "end": 112
+          }
+        ],
+        "before_hash": "31eed954ad6f64552ceeab48128c993a23f28c7bade8285550373262a1e311e1",
+        "after_hash": "ff228c4a5ea5a9ffbf71dba0cfbd1f2943b355c5e9722a16a042763ac69cff77"
+      },
+      {
+        "file": "main.js",
+        "ranges": [
+          {
+            "start": 6,
+            "end": 7
+          },
+          {
+            "start": 9,
+            "end": 9
+          },
+          {
+            "start": 14,
+            "end": 20
+          },
+          {
+            "start": 39,
+            "end": 39
+          }
+        ],
+        "before_hash": "ae3ae38e55cfefc7fd2d03ca530ed42f8954dca0481f82700e1b03f66a4ec93c",
+        "after_hash": "2e9da2c11b4d0baefee9f0321fd9552ed44e82cc7a3505067dae598903b1b041"
+      },
+      {
+        "file": "popup.js",
+        "ranges": [
+          {
+            "start": 4,
+            "end": 4
+          },
+          {
+            "start": 7,
+            "end": 7
+          },
+          {
+            "start": 9,
+            "end": 17
+          },
+          {
+            "start": 21,
+            "end": 24
+          },
+          {
+            "start": 31,
+            "end": 31
+          }
+        ],
+        "before_hash": "381ec7f2de9a556cef1fa2e8fef0582296e0f271ca66fb67e7360fff5312bd92",
+        "after_hash": "1c2bc919eb697709e6d39e2a625314ad300d5c628df8e304b6ac7bd0e56a583b"
+      },
+      {
+        "file": "relay.js",
+        "ranges": [
+          {
+            "start": 1,
+            "end": 2
+          },
+          {
+            "start": 4,
+            "end": 11
+          },
+          {
+            "start": 20,
+            "end": 22
+          }
+        ],
+        "before_hash": "89d176a5a08e3f21541a48027a144431177cae4af56b88c6528d64d02346ac00",
+        "after_hash": "449e6877cc5f75ae5d93be98906c05f769421e1f437ef855d32e674f4f2b6054"
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-09-27T22:23:03.287Z",
+    "completed_at": "2026-09-27T22:23:14.312Z",
+    "duration_ms": 11025,
+    "measurement": "hook_wall_clock"
+  },
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0,
+    "model_calls": 0,
+    "measurement": "known-zero"
+  },
+  "telemetry": {
+    "schemaVersion": "mimosa-gate-telemetry/v1",
+    "profile": "gate",
+    "operation": "Stop",
+    "outcome": "partial/INCONCLUSIVE",
+    "latencyMs": 11025,
+    "peakMemoryBytes": 82636800,
+    "memoryMeasurement": "max-observed-process-rss",
+    "scannedFiles": 0,
+    "cache": {
+      "hits": 0,
+      "misses": 0,
+      "measurement": "not-applicable"
+    },
+    "denyCount": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "total": 0,
+      "modelCalls": 0,
+      "measurement": "known-zero"
+    }
+  },
+  "finding_count": 0,
+  "rewake_finding_count": 0,
+  "evidence_boundary": {
+    "scan": "candidate",
+    "static_fix_verification": "observed_static_only",
+    "runtime_verification": "not_performed"
+  },
+  "finding_events": [],
+  "findings": [],
+  "artifacts": {
+    "immutable_report": ".mimosa/reports/task-review-sess_13c93b18-bc55-4693-89bc-5b78faec1e67-20260927T222314312Z-35268-0b76d04531c9.json",
+    "latest_report": ".mimosa/reports/task-review-sess_13c93b18-bc55-4693-89bc-5b78faec1e67.json",
+    "history_summary": ".mimosa/history/run-20260927T222314312Z-35268-0b76d04531c9.json"
+  }
+}
